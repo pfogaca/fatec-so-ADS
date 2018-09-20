@@ -124,7 +124,18 @@ void menosPesado(hotel pessoa) {
 }
 
 void mostrarPessoa(hotel pessoa) {
+    int codigoDig;
     printf("3 - Consulta pessoa\n");
+	printf("Digite o codigo da pessoa procurada");
+    scanf("%d", &codigoDig);
+    
+    if (fim == -1) {
+        printf("Nao ha pessoas cadastradas.");
+    }
+    else {
+        //...
+    }
+
     system("pause");
 }
 
