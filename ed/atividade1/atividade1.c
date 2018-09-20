@@ -5,17 +5,20 @@
 //Paulo Sergio Muller Fogaca
 //Jorge de Assuncao Gomes
 
+#define MAX_HOSPEDES 10;
+
 typedef struct {
 	int codigo;
 	float peso;
 	char sexo;
 } hospede;
 
-typedef hospede hotel[10];
+typedef hospede hotel[MAX_HOSPEDES];
 
 int main() {
 	hotel pessoa;
 	char opMenu;
+	int fim;
 	
 	do {
 		mostrarMenu();
@@ -102,8 +105,9 @@ void removerPessoa(hotel pessoa) {
 }
 
 void numeroPessoas(hotel pessoa) {
-    printf("6 - Numero de Pessoas\n");
-    system("pause");
+    //intf("6 - Numero de Pessoas\n;
+    //system("pause");
+    
 }
 
 void listarPessoas(hotel pessoa) {
