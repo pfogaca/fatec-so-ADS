@@ -81,11 +81,45 @@ void erroMensagem() {
 
 void maisPesado(hotel pessoa) {
     printf("1 - Pessoa mais pesada\n");
+    if (fim == -1) {
+        printf("Nao ha nenhuma pessoa no momento.");
+    }
+    else {
+        float pesoMinimo = -1.0f;
+        int indice;
+        for (i=0; i<fim; i++) {
+            if (pessoa[i].peso > pesoMinimo) {
+                pesoMinimo = pessoa[i].peso;
+                indice = i;
+            }
+        }
+        printf("1 - Pessoa mais pesada\n");
+        printf("\tcodigo: %d\n", pessoa[indice].codigo);
+        printf("\tpeso: %f\n", pessoa[indice].peso);
+        printf("\tcodigo: %c\n", pessoa[indice].sexo);
+    }
     system("pause");
 }
 
 void menosPesado(hotel pessoa) {
     printf("2 - Pessoa menos pesada\n");
+    if (fim == -1) {
+        printf("Nao ha nenhuma pessoa no momento.");
+    }
+    else {
+        float pesoMinimo = -1.0f;
+        int indice;
+        for (i=0; i<fim; i++) {
+            if (pessoa[i].peso > pesoMinimo) {
+                pesoMinimo = pessoa[i].peso;
+                indice = i;
+            }
+        }
+        printf("1 - Pessoa menos pesada\n");
+        printf("\tcodigo: %d\n", pessoa[indice].codigo);
+        printf("\tpeso: %f\n", pessoa[indice].peso);
+        printf("\tcodigo: %c\n", pessoa[indice].sexo);
+    }
     system("pause");
 }
 
