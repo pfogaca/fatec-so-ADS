@@ -5,20 +5,29 @@
 //Paulo Sergio Muller Fogaca
 //Jorge de Assuncao Gomes
 
-#define MAX_HOSPEDES 10;
+#define MAX_HOSPEDES 10
 
 typedef struct {
 	int codigo;
 	float peso;
 	char sexo;
 } hospede;
-
+int fim = -1;
 typedef hospede hotel[MAX_HOSPEDES];
+
+void mostrarMenu();
+void erroMensagem();
+void maisPesado(hotel pessoa);
+void menosPesado(hotel pessoa);
+void mostrarPessoa(hotel pessoa);
+void inserirPessoa(hotel pessoa);
+void removerPessoa(hotel pessoa);
+void numeroPessoas(hotel pessoa);
+void listarPessoas(hotel pessoa);
 
 int main() {
 	hotel pessoa;
 	char opMenu;
-	int fim;
 	
 	do {
 		mostrarMenu();
@@ -47,7 +56,8 @@ int main() {
                 listarPessoas(pessoa);
                 break;
             default:    
-				erroMensagem();
+		        erroMensagem();
+        }
 	} while (opMenu != 56);
 	
 	printf("###FINALIZANDO###\n");
@@ -87,7 +97,7 @@ void maisPesado(hotel pessoa) {
     else {
         float pesoMinimo = -1.0f;
         int indice;
-        for (i=0; i<fim; i++) {
+        for (int i=0; i<fim; i++) {
             if (pessoa[i].peso > pesoMinimo) {
                 pesoMinimo = pessoa[i].peso;
                 indice = i;
@@ -109,7 +119,7 @@ void menosPesado(hotel pessoa) {
     else {
         float pesoMinimo = -1.0f;
         int indice;
-        for (i=0; i<fim; i++) {
+        for (int i=0; i<fim; i++) {
             if (pessoa[i].peso > pesoMinimo) {
                 pesoMinimo = pessoa[i].peso;
                 indice = i;
@@ -133,7 +143,21 @@ void mostrarPessoa(hotel pessoa) {
         printf("Nao ha pessoas cadastradas.");
     }
     else {
-        //...
+        int encontrada = -1;
+
+        for (int i=0; i<fim; i++) {
+            if (pessoa[i].codigo == codigoDig) {
+                i = fim;
+                encontrada = i;
+            }
+        }
+
+        if (encontrada != -1) {
+            printf("\tpeso: %f\n", pessoa[encontrada].peso);
+            printf("\tcodigo: %c\n", pessoa[encontrada].sexo);
+        } else {
+            printf("Nao ha pessoas com o codigo informado.");
+        }
     }
 
     system("pause");
