@@ -20,8 +20,8 @@ void erroMensagem();
 void maisPesado(hotel pessoa);
 void menosPesado(hotel pessoa);
 void mostrarPessoa(hotel pessoa);
-void inserirPessoa(hotel pessoa);
-void removerPessoa(hotel pessoa);
+hotel inserirPessoa(hotel pessoa);
+hotel removerPessoa(hotel pessoa);
 void numeroPessoas(hotel pessoa);
 void listarPessoas(hotel pessoa);
 
@@ -44,10 +44,10 @@ int main() {
                 mostrarPessoa(pessoa);
                 break;
             case 52:
-                inserirPessoa(pessoa);
+                pessoa = inserirPessoa(pessoa);
                 break;
             case 53:
-                removerPessoa(pessoa);
+                pessoa = removerPessoa(pessoa);
                 break;
             case 54:
                 numeroPessoas(pessoa);
@@ -163,23 +163,107 @@ void mostrarPessoa(hotel pessoa) {
     system("pause");
 }
 
-void inserirPessoa(hotel pessoa) {
+pessoa inserirPessoa(hotel pessoa) {
     printf("4 - Inserir Pessoa\n");
+
+    if (fim == 9) {
+        printf("Nao e possivel inserir mais pessoas.");
+    } else {
+        int codigoDig;
+        float pesoDig;
+        char sexoDig;
+
+        printf("Digite o codigo da pessoa a ser inserida: ");
+        scanf("%d", &codigoDig);
+
+        printf("Digite o codigo da pessoa a ser inserida: ");
+        scanf("%d", &pesoDig);
+
+        printf("Digite o codigo da pessoa a ser inserida: ");
+        sexoDig = getch();
+
+        fim++;
+
+        pessoa[fim].codigo = codigoDig;
+        pessoa[fim].peso = pesoDig;
+        pessoa[fim].sexo = sexoDig;
+
+        printf("\n\n###PESSOA INSERIDA###");
+    }
+
     system("pause");
+
+    return pessoa;
 }
 
-void removerPessoa(hotel pessoa) {
+hotel removerPessoa(hotel pessoa) {
     printf("5 - remover Pessoa\n");
+
+    int codigoDig, encontrada = -1;
+    
+    if (fim == -1) {
+        printf("Nao ha pessoas cadastradas.");
+    } else {
+        int encontrada = -1;
+        printf("Digite o codigo da pessoa a ser removida: ");
+        scanf("%d", &codigoDig);
+
+        for (int i = 0; i <= fim; i++) {
+            if (pessoa[i].codigo == codigoDig) {
+                encontrada = i;
+                break;
+            }
+        }
+
+        if (encontrada != -1) {
+            for (int i = encontrada; i < fim; i++) {
+                pessoa[i].codigo = pessoa[i + 1].codigo;
+                pessoa[i].peso = pessoa[i + 1].peso;
+                pessoa[i].sexo = pessoa[i + 1].sexo;
+            }
+            pessoa[fim].codigo = NULL;
+            pessoa[fim].peso = NULL;
+            pessoa[fim].sexo = NULL;
+
+            fim--;
+
+            printf("\n\n###PESSOA REMOVIDA###");
+        } else {
+            printf("Nao ha pessoas com o codigo informado.");
+        }
+    }
+
     system("pause");
+
+    return pessoa;
 }
 
 void numeroPessoas(hotel pessoa) {
-    //intf("6 - Numero de Pessoas\n;
-    //system("pause");
+    printf("6 - Numero de Pessoas\n");
     
+    if (fim == -1) {
+        printf("Nao ha pessoas cadastradas.");
+    } else {
+        printf("\n\nExistem %d pessoa(s) cadastrada(s).", (fim + 1));
+    }
+
+    system("pause");
 }
 
 void listarPessoas(hotel pessoa) {
     printf("7 - Mostrar Pessoas\n");
+
+    if (fim == -1) {
+        printf("Nao ha pessoas cadastradas.");
+    } else {
+        printf("\n###LISTA DE PESSOAS###");
+        for (int i = 0; i <= fim; i++) {
+            printf("\tcodigo: %d\n", pessoa[i].codigo);
+            printf("\tpeso: %f\n", pessoa[i].peso);
+            printf("\tcodigo: %c\n", pessoa[i].sexo);
+        }
+        printf("###      FIM       ###");
+    }
+
     system("pause");
 }
