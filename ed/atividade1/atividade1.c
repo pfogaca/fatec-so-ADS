@@ -12,22 +12,23 @@ typedef struct {
 	float peso;
 	char sexo;
 } hospede;
-int fim = -1;
+
 typedef hospede hotel[MAX_HOSPEDES];
 
 void mostrarMenu();
 void erroMensagem();
-void maisPesado(hotel pessoa);
-void menosPesado(hotel pessoa);
-void mostrarPessoa(hotel pessoa);
-hotel inserirPessoa(hotel pessoa);
-hotel removerPessoa(hotel pessoa);
-void numeroPessoas(hotel pessoa);
-void listarPessoas(hotel pessoa);
+void maisPesado(hotel pessoa, int *fim);
+void menosPesado(hotel pessoa, int *fim);
+void mostrarPessoa(hotel pessoa, int *fim);
+hotel inserirPessoa(hotel pessoa, int *fim);
+hotel removerPessoa(hotel pessoa, int *fim);
+void numeroPessoas(hotel pessoa, int *fim);
+void listarPessoas(hotel pessoa, int *fim);
 
 int main() {
 	hotel pessoa;
 	char opMenu;
+    	int fim = -1;
 	
 	do {
 		mostrarMenu();
@@ -35,25 +36,25 @@ int main() {
         switch(opMenu)
         {
             case 49:
-                maisPesado(pessoa);
+                maisPesado(pessoa, &fim);
                 break;
             case 50:
-                menosPesado(pessoa);
+                menosPesado(pessoa, &fim);
                 break;
             case 51:
-                mostrarPessoa(pessoa);
+                mostrarPessoa(pessoa, &fim);
                 break;
             case 52:
-                pessoa = inserirPessoa(pessoa);
+                pessoa = inserirPessoa(pessoa, &fim);
                 break;
             case 53:
-                pessoa = removerPessoa(pessoa);
+                pessoa = removerPessoa(pessoa, &fim);
                 break;
             case 54:
-                numeroPessoas(pessoa);
+                numeroPessoas(pessoa, &fim);
                 break;
             case 55:
-                listarPessoas(pessoa);
+                listarPessoas(pessoa, &fim);
                 break;
             default:    
 		        erroMensagem();
@@ -89,7 +90,7 @@ void erroMensagem() {
     system("pause");
 }
 
-void maisPesado(hotel pessoa) {
+void maisPesado(hotel pessoa, int *fim) {
     printf("1 - Pessoa mais pesada\n");
     if (fim == -1) {
         printf("Nao ha nenhuma pessoa no momento.");
@@ -111,7 +112,7 @@ void maisPesado(hotel pessoa) {
     system("pause");
 }
 
-void menosPesado(hotel pessoa) {
+void menosPesado(hotel pessoa, int *fim) {
     printf("2 - Pessoa menos pesada\n");
     if (fim == -1) {
         printf("Nao ha nenhuma pessoa no momento.");
@@ -133,7 +134,7 @@ void menosPesado(hotel pessoa) {
     system("pause");
 }
 
-void mostrarPessoa(hotel pessoa) {
+void mostrarPessoa(hotel pessoa, int *fim) {
     int codigoDig;
     printf("3 - Consulta pessoa\n");
 	printf("Digite o codigo da pessoa procurada");
@@ -162,8 +163,7 @@ void mostrarPessoa(hotel pessoa) {
 
     system("pause");
 }
-
-pessoa inserirPessoa(hotel pessoa) {
+pessoa inserirPessoa(hotel pessoa, int *fim) {
     printf("4 - Inserir Pessoa\n");
 
     if (fim == 9) {
@@ -196,7 +196,7 @@ pessoa inserirPessoa(hotel pessoa) {
     return pessoa;
 }
 
-hotel removerPessoa(hotel pessoa) {
+hotel removerPessoa(hotel pessoa, int *fim) {
     printf("5 - remover Pessoa\n");
 
     int codigoDig, encontrada = -1;
@@ -238,7 +238,7 @@ hotel removerPessoa(hotel pessoa) {
     return pessoa;
 }
 
-void numeroPessoas(hotel pessoa) {
+void numeroPessoas(hotel pessoa, int *fim) {
     printf("6 - Numero de Pessoas\n");
     
     if (fim == -1) {
@@ -250,7 +250,7 @@ void numeroPessoas(hotel pessoa) {
     system("pause");
 }
 
-void listarPessoas(hotel pessoa) {
+void listarPessoas(hotel pessoa, int *fim) {
     printf("7 - Mostrar Pessoas\n");
 
     if (fim == -1) {
