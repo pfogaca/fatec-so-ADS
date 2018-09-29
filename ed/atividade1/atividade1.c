@@ -163,7 +163,6 @@ void mostrarPessoa(hotel pessoa, int *fim) {
 
     system("pause");
 }
-
 pessoa inserirPessoa(hotel pessoa, int *fim) {
     printf("4 - Inserir Pessoa\n");
 
