@@ -28,7 +28,8 @@ void listarPessoas(hotel pessoa, int *fim);
 int main() {
 	hotel pessoa;
 	char opMenu;
-    	int fim = -1;
+    	int *fim;
+	*fim = -1;
 	
 	do {
 		mostrarMenu();
@@ -92,13 +93,13 @@ void erroMensagem() {
 
 void maisPesado(hotel pessoa, int *fim) {
     printf("1 - Pessoa mais pesada\n");
-    if (fim == -1) {
+    if (*fim == -1) {
         printf("Nao ha nenhuma pessoa no momento.");
     }
     else {
         float pesoMinimo = -1.0f;
         int indice;
-        for (int i=0; i<fim; i++) {
+        for (int i=0; i<*fim; i++) {
             if (pessoa[i].peso > pesoMinimo) {
                 pesoMinimo = pessoa[i].peso;
                 indice = i;
@@ -114,13 +115,13 @@ void maisPesado(hotel pessoa, int *fim) {
 
 void menosPesado(hotel pessoa, int *fim) {
     printf("2 - Pessoa menos pesada\n");
-    if (fim == -1) {
+    if (*fim == -1) {
         printf("Nao ha nenhuma pessoa no momento.");
     }
     else {
         float pesoMinimo = -1.0f;
         int indice;
-        for (int i=0; i<fim; i++) {
+        for (int i=0; i<*fim; i++) {
             if (pessoa[i].peso > pesoMinimo) {
                 pesoMinimo = pessoa[i].peso;
                 indice = i;
@@ -140,15 +141,15 @@ void mostrarPessoa(hotel pessoa, int *fim) {
 	printf("Digite o codigo da pessoa procurada");
     scanf("%d", &codigoDig);
     
-    if (fim == -1) {
+    if (*fim == -1) {
         printf("Nao ha pessoas cadastradas.");
     }
     else {
         int encontrada = -1;
 
-        for (int i=0; i<fim; i++) {
+        for (int i=0; i<*fim; i++) {
             if (pessoa[i].codigo == codigoDig) {
-                i = fim;
+                i = *fim;
                 encontrada = i;
             }
         }
@@ -166,7 +167,7 @@ void mostrarPessoa(hotel pessoa, int *fim) {
 pessoa inserirPessoa(hotel pessoa, int *fim) {
     printf("4 - Inserir Pessoa\n");
 
-    if (fim == 9) {
+    if (*fim == 9) {
         printf("Nao e possivel inserir mais pessoas.");
     } else {
         int codigoDig;
@@ -182,11 +183,11 @@ pessoa inserirPessoa(hotel pessoa, int *fim) {
         printf("Digite o codigo da pessoa a ser inserida: ");
         sexoDig = getch();
 
-        fim++;
+        *fim++;
 
-        pessoa[fim].codigo = codigoDig;
-        pessoa[fim].peso = pesoDig;
-        pessoa[fim].sexo = sexoDig;
+        pessoa[*fim].codigo = codigoDig;
+        pessoa[*fim].peso = pesoDig;
+        pessoa[*fim].sexo = sexoDig;
 
         printf("\n\n###PESSOA INSERIDA###");
     }
@@ -201,14 +202,14 @@ hotel removerPessoa(hotel pessoa, int *fim) {
 
     int codigoDig, encontrada = -1;
     
-    if (fim == -1) {
+    if (*fim == -1) {
         printf("Nao ha pessoas cadastradas.");
     } else {
         int encontrada = -1;
         printf("Digite o codigo da pessoa a ser removida: ");
         scanf("%d", &codigoDig);
 
-        for (int i = 0; i <= fim; i++) {
+        for (int i = 0; i <= *fim; i++) {
             if (pessoa[i].codigo == codigoDig) {
                 encontrada = i;
                 break;
@@ -216,16 +217,16 @@ hotel removerPessoa(hotel pessoa, int *fim) {
         }
 
         if (encontrada != -1) {
-            for (int i = encontrada; i < fim; i++) {
+            for (int i = encontrada; i < *fim; i++) {
                 pessoa[i].codigo = pessoa[i + 1].codigo;
                 pessoa[i].peso = pessoa[i + 1].peso;
                 pessoa[i].sexo = pessoa[i + 1].sexo;
             }
-            pessoa[fim].codigo = NULL;
-            pessoa[fim].peso = NULL;
-            pessoa[fim].sexo = NULL;
+            pessoa[*fim].codigo = NULL;
+            pessoa[*fim].peso = NULL;
+            pessoa[*fim].sexo = NULL;
 
-            fim--;
+            *fim--;
 
             printf("\n\n###PESSOA REMOVIDA###");
         } else {
@@ -241,10 +242,10 @@ hotel removerPessoa(hotel pessoa, int *fim) {
 void numeroPessoas(hotel pessoa, int *fim) {
     printf("6 - Numero de Pessoas\n");
     
-    if (fim == -1) {
+    if (*fim == -1) {
         printf("Nao ha pessoas cadastradas.");
     } else {
-        printf("\n\nExistem %d pessoa(s) cadastrada(s).", (fim + 1));
+        printf("\n\nExistem %d pessoa(s) cadastrada(s).", (*fim + 1));
     }
 
     system("pause");
@@ -253,11 +254,11 @@ void numeroPessoas(hotel pessoa, int *fim) {
 void listarPessoas(hotel pessoa, int *fim) {
     printf("7 - Mostrar Pessoas\n");
 
-    if (fim == -1) {
+    if (*fim == -1) {
         printf("Nao ha pessoas cadastradas.");
     } else {
         printf("\n###LISTA DE PESSOAS###");
-        for (int i = 0; i <= fim; i++) {
+        for (int i = 0; i <= *fim; i++) {
             printf("\tcodigo: %d\n", pessoa[i].codigo);
             printf("\tpeso: %f\n", pessoa[i].peso);
             printf("\tcodigo: %c\n", pessoa[i].sexo);
