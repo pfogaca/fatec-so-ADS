@@ -1,10 +1,3 @@
-/******************************************************************************
-
-                            Online C Compiler.
-                Code, Compile, Run and Debug C program online.
-Write your code in this editor and press "Run" button to compile and execute it.
-
-*******************************************************************************/
 // atividade2.c
 //Paulo Sergio Muller Fogaca
 //Jorge de Assuncao Gomes
@@ -13,141 +6,327 @@ Write your code in this editor and press "Run" button to compile and execute it.
 #include <stdlib.h>
 #include <conio.h>
 
+typedef struct {
+	int codigo;
+	float peso;
+	char sexo;
+} hospede;
+
 typedef struct regLista
 {
-    int valor;
+    hospede *pessoa;
     struct regLista *prox;
 } regLista;
 
-//
-// acrescenta um item ao fim da lista retorna o indice deste item
-//
-int acrescentar(regLista *inicio, int valor) {
-    regLista *aux, *ant;
-    
-    aux = (regLista *) malloc(sizeof(regLista));
-    aux->valor = valor;
+void mostrarMenu() {
+	system("cls");
 
-    if (inicio == NULL) {
-        inicio = aux;
-        return 0;
-    } else {
-        int indice = 0;
-        ant = inicio;
-        while (ant->prox != NULL) { indice++; ant = ant->prox; }
-        ant->prox = aux;
-        return indice;
-    }
+	printf("###Digite a opcao:###\n");
+    printf("#1 - Mais pesado\n");
+    printf("#2 - Menos pesado\n");
+    printf("#3 - Consultar pessoa\n");
+    printf("#4 - Inserir pessoa\n");
+    printf("#5 - Remover pessoa\n");
+    printf("#6 - Numero de pessoas\n");
+    printf("#7 - Mostrar pessoas\n");
+    printf("#8 - Fim\n");
 }
 
-//
-// insere um item no indice especificado lista retorna o indice deste item;
-// se o indice for maior que o tamanho da lista, o valor é acrescentado ao fim.
-//
-int inserir(regLista *inicio, int indice, int valor) {
-    regLista *aux, *ant;
-    
-    aux = (regLista *) malloc(sizeof(regLista));
-    aux->valor = valor;
+void erroMensagem() {
+	system("cls");
 
-    if (inicio == NULL) {
-        inicio = aux;
-        return 0;
-    } else {
-        int pos = 0;
-        ant = inicio;
-
-        while (ant->prox != NULL && pos < indice) { pos++; ant = ant->prox; }
-        if (ant->prox != NULL) { aux->prox = ant->prox; }
-        ant->prox = aux;
-
-        return pos;
-    }
+	printf("\n\n###ATENCAO###\n");
+    printf("Opcao invalida\n");
+    printf("Tecle Enter para tentar novamente\n");
+    system("pause");
 }
 
-//
-// retorna o valor to item no indice especificado, e -1 se a lista estiver
-// vazia ou se o indice estiver fora da faixa.
-//
-int consultar(regLista *inicio, int indice) {
-    regLista *ant;
-
-    if (inicio == NULL || indice < 0) {
-        return -1;
-    } else if (indice == 0) {
-        return inicio ->valor;
+void maisPesado(regLista *inicio) {
+	regLista *aux, *encontrado;
+	
+	aux = (regLista *) malloc(sizeof(regLista));
+	aux = inicio;
+	
+	encontrado = (regLista *) malloc(sizeof(regLista));
+	
+    if (aux->pessoa->codigo == 0) {
+        printf("\n\nNao ha nenhuma pessoa no momento.\n\n");
     } else {
-        int pos = 0;
-        ant = inicio;
-
-        while (ant->prox != NULL && pos < indice) {
-            pos++;
-            ant = ant->prox;
-        }
-
-        return ant->valor;
+        float pesoMinimo = -1.0f;
+		
+		while (aux != NULL) {
+			if (aux->pessoa->peso > pesoMinimo) {
+                pesoMinimo = aux->pessoa->peso;
+                encontrado = aux;
+            }
+			
+			aux = aux->prox;
+		}
+		
+        printf("1 - Pessoa mais pesada\n");
+        printf("\tcodigo: %d\n", encontrado->pessoa->codigo);
+        printf("\tpeso: %f\n", encontrado->pessoa->peso);
+        printf("\tcodigo: %c\n", encontrado->pessoa->sexo);
     }
+    system("pause");
 }
 
-//
-// retorna o número de itens na lista especificada.
-//
-int comprimento(regLista *inicio) {
-    regLista *ant;
-
-    if (inicio == NULL) {
-        return 0;
+void menosPesado(regLista *inicio) {
+    regLista *aux, *encontrado;
+	
+	aux = (regLista *) malloc(sizeof(regLista));
+	aux = inicio;
+	
+	encontrado = (regLista *) malloc(sizeof(regLista));
+	
+    if (aux->pessoa->codigo == 0) {
+        printf("\n\nNao ha nenhuma pessoa no momento.\n\n");
     } else {
-        int pos = 1;
-        ant = inicio;
-
-        while (ant->prox != NULL) { pos++; ant = ant->prox; }
-        return pos;
+        float pesoMinimo = 100000.0f;
+		
+		while (aux != NULL) {
+			if (aux->pessoa->peso < pesoMinimo) {
+                pesoMinimo = aux->pessoa->peso;
+                encontrado = aux;
+            }
+			
+			aux = aux->prox;
+		}
+		
+        printf("2 - Pessoa menos pesada\n");
+        printf("\tcodigo: %d\n", encontrado->pessoa->codigo);
+        printf("\tpeso: %f\n", encontrado->pessoa->peso);
+        printf("\tcodigo: %c\n", encontrado->pessoa->sexo);
     }
+    system("pause");
 }
 
+void mostrarPessoa(regLista *inicio) {
+    int codigoDig;
+    printf("3 - Consulta pessoa\n");
+	printf("Digite o codigo da pessoa procurada: ");
+    scanf("%d", &codigoDig);
 
-int main()
-{
-    int numero;
-    regLista *inicio, *aux, *ant;
+	regLista *aux, *encontrado;
+	
+	aux = (regLista *) malloc(sizeof(regLista));
+	aux = inicio;
+	
+	encontrado = (regLista *) malloc(sizeof(regLista));
+	encontrado = NULL;
+	
+    if (aux->pessoa->codigo == 0) {
+        printf("Nao ha pessoas cadastradas.");
+    } else {
+		while (aux != NULL) {
+			if (aux->pessoa->codigo == codigoDig) {
+                encontrado = aux;
+				break;
+            }
+			
+			aux = aux->prox;
+		}
 
-    inicio = NULL;
-
-    while (1)
-    {
-        printf("Informe o número");
-        scanf("%d", &numero);
-
-        if (numero < 0) {
-            break;
-        }
-
-        aux = (regLista *) malloc(sizeof(regLista));
-
-        aux->valor = numero;
-        aux->prox = NULL;
-
-        if (inicio == NULL) {
-            inicio = aux;
+        if (encontrado != NULL) {
+            printf("\tcodigo: %d\n", encontrado->pessoa->codigo);
+			printf("\tpeso: %f\n", encontrado->pessoa->peso);
+			printf("\tcodigo: %c\n", encontrado->pessoa->sexo);
         } else {
-            ant->prox = aux;
+            printf("\n\nNao ha pessoas com o codigo informado.\n\n");
         }
-
-        ant = aux;
     }
 
-    printf("\n\nComprimento da lista: %d\n", comprimento(inicio));
-    printf("\n\nItem 3 da lista: %d\n", consultar(inicio, 3));
+    system("pause");
+}
 
-    // printf("\n\n\nConteudo da lista:\n");
+void inserirPessoa(regLista *inicio) {
+    printf("4 - Inserir Pessoa\n");
+	
+	regLista *aux, *inserido;
+	hospede *inseridoPessoa;
+	
+	aux = (regLista *) malloc(sizeof(regLista));
+	aux = inicio;
 
-    // aux = inicio;
-    // while (aux != NULL) {
-    //     printf("%d\n", aux->valor);
+    inseridoPessoa = (hospede *) malloc(sizeof(hospede));
+	
+	inserido = (regLista *) malloc(sizeof(regLista));
+	inserido->prox = NULL;
 
-    //     aux = aux->prox;
-    // }
+    int codigoDig;
+    float pesoDig;
+    char sexoDig;
 
-    return 0;
+	printf("Digite o codigo da pessoa a ser inserida: ");
+	scanf("%i", &codigoDig);
+    
+	printf("Digite o peso da pessoa a ser inserida: ");    
+	scanf("%f", &pesoDig);
+
+    printf("Digite o sexo da pessoa a ser inserida: ");
+    sexoDig = getch();
+
+    inseridoPessoa->codigo = codigoDig;
+    inseridoPessoa->peso = pesoDig;
+    inseridoPessoa->sexo = sexoDig;
+    
+    if (aux->pessoa->codigo == 0) {
+        aux->pessoa = inseridoPessoa;
+    } else {
+        inserido->pessoa = inseridoPessoa;
+        
+        while (aux->prox != NULL) {	
+		    aux = aux->prox;
+        }
+        
+        aux->prox = inserido;
+	}
+
+    printf("\n\n###PESSOA INSERIDA###\n\n");
+
+    system("pause");
+}
+
+void removerPessoa(regLista *inicio) {
+    printf("5 - remover Pessoa\n");
+
+    int codigoDig;
+    regLista *aux, *encontrado, *ant;
+	
+	aux = (regLista *) malloc(sizeof(regLista));
+	aux = inicio;
+	
+	ant = (regLista *) malloc(sizeof(regLista));
+	ant = inicio;
+	
+	encontrado = (regLista *) malloc(sizeof(regLista));
+	encontrado = NULL;
+	
+    if (aux->pessoa->codigo == 0) {
+        printf("Nao ha pessoas cadastradas.");
+    } else {
+		int codigoDig;
+		printf("Digite o codigo da pessoa a ser removida: ");
+		scanf("%d", &codigoDig);
+	
+		while (aux != NULL) {
+			if (aux->pessoa->codigo == codigoDig) {
+                encontrado = aux;
+				break;
+            }
+			
+			ant = aux;
+			aux = aux->prox;
+		}
+
+        if (encontrado != NULL) {
+            ant->prox = encontrado->prox;
+			printf("\n\n###PESSOA REMOVIDA###\n\n");
+        } else {
+            printf("\n\nNao ha pessoas com o codigo informado.\n\n");
+        }
+    }
+
+    system("pause");
+}
+
+void numeroPessoas(regLista *inicio) {
+    printf("6 - Numero de Pessoas\n");
+	
+	regLista *aux;
+	int numero = 0;
+	
+	aux = (regLista *) malloc(sizeof(regLista));
+	aux = inicio;
+
+    if (aux->pessoa->codigo == 0) {
+        printf("\n\nNao ha pessoas cadastradas.\n\n");
+    } else {
+        while (aux != NULL) {	
+		    aux = aux->prox;
+		    numero++;
+	    }
+	    
+        printf("\n\nExistem %d pessoa(s) cadastrada(s).\n\n", numero);
+    }
+
+    system("pause");
+}
+
+void listarPessoas(regLista *inicio) {
+    printf("7 - Mostrar Pessoas\n");
+
+	regLista *aux;
+	int numero = 0;
+	
+	aux = (regLista *) malloc(sizeof(regLista));
+	aux = inicio;
+	
+    if (aux->pessoa->codigo == 0) {
+        printf("Nao ha pessoas cadastradas.");
+    } else {
+        printf("\n###LISTA DE PESSOAS###\n\n");
+        while (aux != NULL) {	
+			printf("\tcodigo: %d\n", aux->pessoa->codigo);
+			printf("\tpeso: %f\n", aux->pessoa->peso);
+			printf("\tcodigo: %c\n\n", aux->pessoa->sexo);
+			
+			aux = aux->prox;
+		}
+        printf("\n\n###      FIM       ###\n\n");
+    }
+
+    system("pause");
+}
+
+int main() {
+	regLista inicio;
+	hospede pessoaIni;
+	int opMenu;
+	
+	pessoaIni.codigo = 0;
+	pessoaIni.sexo = 0;
+	pessoaIni.peso = 0;
+	
+	inicio.pessoa = &pessoaIni;
+	inicio.prox = NULL;
+
+	do {
+		mostrarMenu();
+		scanf("%i", &opMenu);
+        switch(opMenu)
+        {
+            case 1:
+                maisPesado(&inicio);
+                break;
+            case 2:
+                menosPesado(&inicio);
+                break;
+            case 3:
+                mostrarPessoa(&inicio);
+                break;
+            case 4:
+                inserirPessoa(&inicio);
+                break;
+            case 5:
+                removerPessoa(&inicio);
+                break;
+            case 6:
+                numeroPessoas(&inicio);
+                break;
+            case 7:
+                listarPessoas(&inicio);
+                break;
+            case 8:
+                break;
+            default:
+		        erroMensagem();
+		        break;
+        }
+	} while (opMenu != 8);
+
+	printf("\n\n###FINALIZANDO###\n\n");
+    system("pause");
+
+	return 0;
 }
